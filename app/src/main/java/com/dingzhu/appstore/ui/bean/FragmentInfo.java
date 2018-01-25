@@ -1,4 +1,4 @@
-package com.dingzhu.appstore.bean;
+package com.dingzhu.appstore.ui.bean;
 
 /**
  * Created by wulimin on 2018/1/21.
