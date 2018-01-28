@@ -1,4 +1,4 @@
-package com.dingzhu.appstore.http;
+package com.dingzhu.appstore.data.http;
 
 import java.util.concurrent.TimeUnit;
 

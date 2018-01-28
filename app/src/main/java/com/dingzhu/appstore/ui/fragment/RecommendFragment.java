@@ -1,29 +1,26 @@
-package com.dingzhu.appstore.fragment;
+package com.dingzhu.appstore.ui.fragment;
 
 import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dingzhu.appstore.R;
 import com.dingzhu.appstore.bean.AppInfo;
+import com.dingzhu.appstore.di.component.AppComponent;
+import com.dingzhu.appstore.di.component.DaggerRecommendComponent;
+import com.dingzhu.appstore.di.module.RecommendModule;
 import com.dingzhu.appstore.presenter.RecommendPresenter;
 import com.dingzhu.appstore.presenter.contract.RecommendContract;
 import com.dingzhu.appstore.ui.adapter.RecommendAppAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author wulimin
@@ -32,36 +29,32 @@ import butterknife.Unbinder;
  */
 
 
-public class RecommendFragment extends Fragment implements RecommendContract.View {
+public class RecommendFragment extends BaseFragment<RecommendPresenter> implements RecommendContract.View {
 
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    Unbinder unbinder;
     private RecommendAppAdapter mRecommendAppAdapter;
-    private RecommendPresenter mPresenter;
-    protected ProgressDialog mProgressDialog;
+    @Inject
+    ProgressDialog mProgressDialog;
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_recommend, null, false);
-        unbinder = ButterKnife.bind(this, rootView);
-        mPresenter = new RecommendPresenter(this);
-        mProgressDialog = new ProgressDialog(getActivity());
-        initData();
-        return rootView;
-    }
-
-    private void initData() {
-        mPresenter.requestData();
+    public int setLayout() {
+        return R.layout.fragment_recommend;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void setupAcitivtyComponent(AppComponent appComponent) {
+        DaggerRecommendComponent.builder()
+                .recommendModule(new RecommendModule(this)).build().inject(this);
     }
+
+    @Override
+    public void init() {
+        mPresenter.requestDatas();
+    }
+
 
     private void initRecyclerView(List<AppInfo> datas) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -89,9 +82,8 @@ public class RecommendFragment extends Fragment implements RecommendContract.Vie
     }
 
     @Override
-    public void showNoData() {
+    public void showNodata() {
         Toast.makeText(getActivity(), "暂时无数据", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override

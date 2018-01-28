@@ -1,4 +1,4 @@
-package com.dingzhu.appstore.fragment;
+package com.dingzhu.appstore.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,19 +11,19 @@ import com.dingzhu.appstore.R;
 
 /**
  * @author wulimin
- * @function RankingFragment 排行
- * @time 2018/1/21 下午4:58
+ * @function CategoryFragment 分类
+ * @time 2018/1/21 下午4:57
  */
 
 
-public class RankingFragment extends Fragment {
+public class CategoryFragment extends Fragment {
 
     private View mRootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_ranking, null, false);
+        mRootView = inflater.inflate(R.layout.fragment_category, null, false);
         return mRootView;
     }
 }

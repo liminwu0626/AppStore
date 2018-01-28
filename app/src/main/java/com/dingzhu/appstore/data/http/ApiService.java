@@ -1,4 +1,4 @@
-package com.dingzhu.appstore.http;
+package com.dingzhu.appstore.data.http;
 
 import com.dingzhu.appstore.bean.AppInfo;
 import com.dingzhu.appstore.bean.PageBean;

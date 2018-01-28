@@ -1,7 +1,12 @@
 package com.dingzhu.appstore.base;
 
 import android.app.Application;
+import android.content.Context;
 
+import com.dingzhu.appstore.di.component.AppComponent;
+import com.dingzhu.appstore.di.component.DaggerAppComponent;
+import com.dingzhu.appstore.di.module.AppModule;
+import com.dingzhu.appstore.di.module.HttpModule;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -13,6 +18,15 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 
 public class AppStoreApplication extends Application {
 
+    private AppComponent mAppComponent;
+
+    public static AppStoreApplication get(Context context) {
+        return (AppStoreApplication) context.getApplicationContext();
+    }
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
+    }
 
     @Override
     public void onCreate() {
@@ -24,5 +38,7 @@ public class AppStoreApplication extends Application {
                 .tag("手机助手")
                 .build();
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));
+        mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(this))
+                .httpModule(new HttpModule()).build();
     }
 }
